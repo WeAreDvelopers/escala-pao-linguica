@@ -1,0 +1,12 @@
+# Dependências (instaladas no servidor com "Run NPM Install")
+node_modules/
+
+# Banco de dados local — fica no servidor, não deve ser sobrescrito a cada deploy
+data/db.json
+
+# Configurações locais do editor/agente
+.claude/
+
+# Logs
+*.log
+npm-debug.log*
