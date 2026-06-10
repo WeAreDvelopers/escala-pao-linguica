@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Escala Pão com Linguiça</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-admin="1">
+
+<header>
+  <h1>Pão com Linguiça</h1>
+  <span class="sub">Administração da escala</span>
+  <a class="linkadmin" href="/">👁 Ver página pública</a>
+</header>
+<p class="resumo" id="resumo">Carregando…</p>
+
+<details class="painel" id="painelSync">
+  <summary>🔄 Sincronização com o Google Forms <span class="ultsync" id="ultSync"></span></summary>
+  <p>Para a escala atualizar sozinha, publique a planilha de respostas:</p>
+  <ol>
+    <li>Abra a planilha de respostas do Forms no Google Planilhas;</li>
+    <li><b>Arquivo → Compartilhar → Publicar na web</b>;</li>
+    <li>Escolha a aba das respostas e o formato <b>Valores separados por vírgula (.csv)</b>;</li>
+    <li>Clique em Publicar e cole o link gerado aqui:</li>
+  </ol>
+  <input type="url" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?output=csv">
+  <div class="acoes">
+    <button class="btn-sec" onclick="salvarConfig()">Salvar link</button>
+    <button class="btn-pri" onclick="sincronizar()">🔄 Sincronizar agora</button>
+    <span class="aviso" id="avisoSync"></span>
+  </div>
+  <p style="margin-top:12px"><b>Alternativa sem link:</b> cole abaixo as linhas copiadas da planilha (Ctrl+C lá, Ctrl+V aqui).</p>
+  <textarea id="entrada" placeholder="Cole aqui as linhas copiadas da planilha de respostas…"></textarea>
+  <div class="acoes">
+    <button class="btn-pri" onclick="importar(false)">＋ Adicionar</button>
+    <button class="btn-sec" onclick="importar(true)">⟳ Substituir tudo</button>
+    <span class="aviso" id="avisoImp"></span>
+  </div>
+</details>
+
+<div class="filtros">
+  <div class="linha-f"><span class="rotulo-f">Dia</span><div id="chipsDia"></div></div>
+  <div class="linha-f"><span class="rotulo-f">Turno</span><div id="chipsTurno"></div></div>
+  <div class="linha-f"><span class="rotulo-f">Pastoral</span><div id="chipsPastoral"></div></div>
+  <div class="linha-f linha-print">
+    <span class="rotulo-f">Nome</span>
+    <input class="busca" id="busca" placeholder="Buscar e destacar nome…" oninput="render()">
+    <div class="direita">
+      <button class="btn-edit" id="btnEdit" onclick="toggleEdit()">✏️ Editar escala</button>
+      <button class="btn-print" onclick="togglePrint()" id="btnPrint">📸 Modo print</button>
+    </div>
+  </div>
+</div>
+
+<main id="escala"></main>
+<footer>Os dados sincronizam do Google Forms · remoções feitas aqui são preservadas a cada sincronização.</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

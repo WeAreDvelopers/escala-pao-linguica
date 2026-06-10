@@ -1,0 +1,84 @@
+:root{
+  --massa:#F7EFE3; --crosta:#E4D5BC; --paprica:#C2452D;
+  --mostarda:#E3A12E; --fumaca:#2C3326; --folha:#4C6B45; --papel:#FFFDF8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--massa);color:var(--fumaca);font-family:'Archivo',sans-serif;font-size:15px;padding:20px clamp(12px,3vw,40px) 60px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;margin-bottom:6px}
+h1{font-family:'Alfa Slab One',serif;font-weight:400;font-size:clamp(26px,4.5vw,42px);color:var(--paprica);letter-spacing:.5px;text-shadow:2px 2px 0 var(--crosta)}
+.sub{font-weight:600;opacity:.75;letter-spacing:.04em;text-transform:uppercase;font-size:12px}
+.resumo{margin:2px 0 14px;font-size:13px;opacity:.85}
+.resumo b{color:var(--paprica)}
+.linkadmin{font-size:12px;font-weight:700;color:var(--folha);text-decoration:none;border:1.5px solid var(--folha);border-radius:999px;padding:4px 12px}
+.linkadmin:hover{background:var(--folha);color:#fff}
+
+details.painel{background:var(--papel);border:2px dashed var(--crosta);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+details.painel summary{cursor:pointer;font-weight:700;color:var(--paprica);font-size:14px;user-select:none}
+details.painel p{font-size:13px;margin:10px 0 8px;line-height:1.55;opacity:.85}
+details.painel ol{font-size:13px;line-height:1.7;margin:6px 0 10px 20px;opacity:.85}
+input[type=url], textarea{width:100%;border:1.5px solid var(--crosta);border-radius:8px;padding:10px;font:13px/1.5 'Archivo',sans-serif;background:#fff;color:var(--fumaca)}
+textarea{min-height:100px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--mostarda);outline-offset:1px}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center}
+button{font:600 13px 'Archivo',sans-serif;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;transition:transform .08s}
+button:active{transform:scale(.97)}
+button:focus-visible{outline:2px solid var(--fumaca);outline-offset:2px}
+.btn-pri{background:var(--paprica);color:#fff}
+.btn-sec{background:var(--fumaca);color:#fff}
+.btn-ghost{background:transparent;color:var(--paprica);text-decoration:underline}
+.aviso{font-size:13px;font-weight:600;margin-top:8px;color:var(--folha)}
+.aviso.erro{color:var(--paprica)}
+.ultsync{font-size:12px;opacity:.6;font-weight:600}
+
+.filtros{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.linha-f{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rotulo-f{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.6;min-width:64px}
+.chip{background:var(--papel);border:1.5px solid var(--crosta);color:var(--fumaca);border-radius:999px;padding:6px 14px;font-weight:600;font-size:13px}
+.chip.ativo{background:var(--fumaca);border-color:var(--fumaca);color:var(--massa)}
+.busca{border:1.5px solid var(--crosta);border-radius:999px;padding:7px 14px;font:600 13px 'Archivo',sans-serif;background:var(--papel);width:220px;max-width:100%}
+.btn-print{background:var(--mostarda);color:var(--fumaca)}
+.btn-edit{background:var(--papel);color:var(--paprica);border:1.5px solid var(--paprica)}
+.btn-edit.ativo{background:var(--paprica);color:#fff}
+.direita{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+.turno{margin-bottom:34px}
+.turno-cab{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--fumaca);padding-bottom:6px;margin-bottom:14px}
+.turno-cab h2{font-size:clamp(17px,2.4vw,22px);font-weight:800}
+.turno-cab .hora{font-size:12px;font-weight:700;color:var(--papel);background:var(--paprica);border-radius:4px;padding:3px 8px;letter-spacing:.04em}
+.dias-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(255px,1fr))}
+
+.card{background:var(--papel);border:1.5px solid var(--crosta);border-left:none;border-radius:10px;overflow:hidden;position:relative;padding-left:14px;box-shadow:0 1px 3px rgba(44,51,38,.08)}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;
+  background:radial-gradient(circle at 7px 50%, var(--massa) 3.5px, transparent 4px) repeat-y left center / 14px 16px, var(--paprica)}
+.card-cab{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:2px solid var(--crosta)}
+.card-cab .dia{font-weight:800;font-size:15px}
+.vagas{font-weight:800;font-size:13px;border-radius:999px;padding:3px 10px;background:var(--crosta);font-variant-numeric:tabular-nums}
+.vagas.cheio{background:var(--folha);color:#fff}
+.vagas.critico{background:var(--paprica);color:#fff}
+ol.slots{list-style:none;padding:6px 0}
+ol.slots li{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 10px;font-size:13.5px;min-height:29px}
+ol.slots li:nth-child(even){background:rgba(228,213,188,.28)}
+.num{font-weight:800;font-size:11px;color:var(--paprica);width:18px;text-align:right;flex:none;font-variant-numeric:tabular-nums}
+.nome{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.past{font-size:10px;font-weight:700;letter-spacing:.05em;opacity:.5;text-transform:uppercase;margin-left:auto;flex:none}
+li.vazio .nome{font-weight:500;opacity:.3;border-bottom:1.5px dashed var(--crosta);min-width:130px}
+li.extra{background:#FCEBD2 !important}
+li.extra .num{color:var(--mostarda)}
+li.match{background:#F4DCC0 !important;outline:1.5px solid var(--mostarda);outline-offset:-1.5px}
+li[data-nome]{cursor:default}
+li.realce{background:#D8E6D2 !important;outline:1.5px solid var(--folha);outline-offset:-1.5px}
+li.realce .nome{color:var(--folha)}
+.btn-x{display:none;background:transparent;color:var(--paprica);font-weight:800;font-size:15px;padding:0 4px;line-height:1;flex:none}
+body.editando .btn-x{display:inline}
+.removidos{border-top:1.5px dashed var(--crosta);padding:7px 12px;font-size:11.5px;color:var(--paprica);display:none}
+body.editando .removidos.tem, body.editando .removidos.tem{display:block}
+.removidos b{font-weight:800}
+.btn-rest{background:transparent;color:var(--folha);text-decoration:underline;padding:0 2px;font-size:11.5px}
+.nada{padding:24px;text-align:center;opacity:.6;font-weight:600}
+
+body.print details.painel, body.print .linha-f:not(.linha-print), body.print .busca,
+body.print .btn-edit, body.print .resumo, body.print .removidos{display:none !important}
+body.print{padding-top:10px}
+
+footer{margin-top:30px;font-size:12px;opacity:.5;text-align:center}
+@media (max-width:560px){.dias-grid{grid-template-columns:1fr}.direita{margin-left:0}}
