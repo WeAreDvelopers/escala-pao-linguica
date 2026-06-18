@@ -13,7 +13,16 @@ const TURNOS = [
 const ADMIN = document.body.dataset.admin === '1';
 
 let respostas = [], removidos = [], pinAtivo = false;
-let filtro = {dia:'todos', turno:'todos', pastoral:'todos'};
+// Cada filtro guarda um conjunto de seleções. Conjunto vazio = "todos".
+let filtro = {dia:new Set(), turno:new Set(), pastoral:new Set()};
+
+// Alterna um valor no conjunto do filtro e redesenha.
+function alternar(chave, valor){
+  const s = filtro[chave];
+  if (s.has(valor)) s.delete(valor); else s.add(valor);
+  montarChips(); render();
+}
+function limpar(chave){ filtro[chave].clear(); montarChips(); render(); }
 
 const norm = s => String(s||'').normalize('NFD').replace(/\p{M}/gu,'').trim().toLowerCase();
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -110,15 +119,15 @@ function chip(rotulo, ativo, fn){
 }
 function montarChips(){
   const cd=$('chipsDia'); cd.innerHTML='';
-  cd.append(chip('Todos', filtro.dia==='todos', ()=>{filtro.dia='todos';montarChips();render();}));
-  DIAS.forEach(d=>cd.append(chip(d.rotulo, filtro.dia===d.id, ()=>{filtro.dia=d.id;montarChips();render();})));
+  cd.append(chip('Todos', filtro.dia.size===0, ()=>limpar('dia')));
+  DIAS.forEach(d=>cd.append(chip(d.rotulo, filtro.dia.has(d.id), ()=>alternar('dia',d.id))));
   const ct=$('chipsTurno'); ct.innerHTML='';
-  ct.append(chip('Todos', filtro.turno==='todos', ()=>{filtro.turno='todos';montarChips();render();}));
-  TURNOS.forEach(t=>ct.append(chip(t.rotulo.split(' · ')[0], filtro.turno===t.id, ()=>{filtro.turno=t.id;montarChips();render();})));
+  ct.append(chip('Todos', filtro.turno.size===0, ()=>limpar('turno')));
+  TURNOS.forEach(t=>ct.append(chip(t.rotulo.split(' · ')[0], filtro.turno.has(t.id), ()=>alternar('turno',t.id))));
   const cp=$('chipsPastoral'); cp.innerHTML='';
   const pastorais=[...new Set(respostas.flatMap(p=>String(p.pastoral).split(',').map(s=>s.trim()).filter(Boolean)))].sort();
-  cp.append(chip('Todas', filtro.pastoral==='todos', ()=>{filtro.pastoral='todos';montarChips();render();}));
-  pastorais.forEach(pa=>cp.append(chip(pa, filtro.pastoral===pa, ()=>{filtro.pastoral=pa;montarChips();render();})));
+  cp.append(chip('Todas', filtro.pastoral.size===0, ()=>limpar('pastoral')));
+  pastorais.forEach(pa=>cp.append(chip(pa, filtro.pastoral.has(pa), ()=>alternar('pastoral',pa))));
 }
 
 /* ---------- Renderização ---------- */
@@ -128,15 +137,15 @@ function render(){
   main.innerHTML='';
   let totalPreench=0, totalVagas=0;
 
-  TURNOS.filter(t=>filtro.turno==='todos'||filtro.turno===t.id).forEach(t=>{
+  TURNOS.filter(t=>filtro.turno.size===0||filtro.turno.has(t.id)).forEach(t=>{
     const grid=document.createElement('div'); grid.className='dias-grid';
     let cardsNoTurno=0;
 
-    DIAS.filter(d=>filtro.dia==='todos'||filtro.dia===d.id).forEach(d=>{
+    DIAS.filter(d=>filtro.dia.size===0||filtro.dia.has(d.id)).forEach(d=>{
       const vistos=new Set();
       const todos=respostas
         .filter(p=>p.funcoes.has(t.id)&&p.dias.has(d.id))
-        .filter(p=>filtro.pastoral==='todos'||String(p.pastoral).split(',').map(s=>s.trim()).includes(filtro.pastoral))
+        .filter(p=>filtro.pastoral.size===0||String(p.pastoral).split(',').map(s=>s.trim()).some(pa=>filtro.pastoral.has(pa)))
         .sort((a,b)=>a.ordem-b.ordem)
         .filter(p=>{const k=norm(p.nome); if(vistos.has(k))return false; vistos.add(k); return true;});
 
