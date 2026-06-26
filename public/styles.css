@@ -16,7 +16,7 @@ details.painel{background:var(--papel);border:2px dashed var(--crosta);border-ra
 details.painel summary{cursor:pointer;font-weight:700;color:var(--paprica);font-size:14px;user-select:none}
 details.painel p{font-size:13px;margin:10px 0 8px;line-height:1.55;opacity:.85}
 details.painel ol{font-size:13px;line-height:1.7;margin:6px 0 10px 20px;opacity:.85}
-input[type=url], textarea{width:100%;border:1.5px solid var(--crosta);border-radius:8px;padding:10px;font:13px/1.5 'Archivo',sans-serif;background:#fff;color:var(--fumaca)}
+input[type=url], input[type=text], input[type=tel], textarea{width:100%;border:1.5px solid var(--crosta);border-radius:8px;padding:10px;font:13px/1.5 'Archivo',sans-serif;background:#fff;color:var(--fumaca)}
 textarea{min-height:100px;resize:vertical}
 input:focus,textarea:focus{outline:2px solid var(--mostarda);outline-offset:1px}
 .acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center}
@@ -80,5 +80,13 @@ body.print details.painel, body.print .linha-f:not(.linha-print), body.print .bu
 body.print .btn-edit, body.print .resumo, body.print .removidos{display:none !important}
 body.print{padding-top:10px}
 
+.form-add{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.campo-add>label:first-child{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-bottom:5px}
+.campo-add input[type=text],.campo-add input[type=tel]{max-width:420px}
+.checks-add{display:flex;flex-wrap:wrap;gap:8px 24px}
+.checks-add label{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer}
+.checks-add input[type=checkbox]{width:15px;height:15px;accent-color:var(--paprica);flex:none}
+.nome.tem-fone{cursor:pointer;text-decoration:underline dotted var(--paprica)}
+.fone-popup{position:fixed;background:var(--papel);border:2px solid var(--paprica);border-radius:8px;padding:8px 16px;font-size:14px;font-weight:700;color:var(--paprica);box-shadow:0 4px 18px rgba(44,51,38,.22);z-index:1000;pointer-events:none}
 footer{margin-top:30px;font-size:12px;opacity:.5;text-align:center}
 @media (max-width:560px){.dias-grid{grid-template-columns:1fr}.direita{margin-left:0}}

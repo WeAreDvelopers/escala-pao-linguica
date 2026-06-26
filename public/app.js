@@ -111,6 +111,24 @@ function togglePrint(){
   $('btnPrint').textContent =
     document.body.classList.contains('print') ? '✏️ Voltar' : '📸 Modo print';
 }
+async function adicionarPessoa(){
+  const nome    = $('addNome').value.trim();
+  const fone    = $('addFone').value.trim();
+  const pastoral= $('addPastoral').value.trim();
+  const turnos  = [...document.querySelectorAll('input[name="addTurno"]:checked')].map(i=>i.value);
+  const dias    = [...document.querySelectorAll('input[name="addDia"]:checked')].map(i=>i.value);
+  const av = $('avisoAdicionar');
+  if (!nome)         { av.className='aviso erro'; av.textContent='Nome é obrigatório.'; return; }
+  if (!turnos.length){ av.className='aviso erro'; av.textContent='Selecione ao menos um turno.'; return; }
+  if (!dias.length)  { av.className='aviso erro'; av.textContent='Selecione ao menos um dia.'; return; }
+  try{
+    await api('/api/adicionar', {nome, fone, pastoral, turnos, dias});
+    av.className='aviso'; av.textContent=`✔ ${nome} adicionado(a).`;
+    $('addNome').value=''; $('addFone').value=''; $('addPastoral').value='';
+    document.querySelectorAll('input[name="addTurno"],input[name="addDia"]').forEach(i=>i.checked=false);
+    await carregar();
+  }catch(e){ av.className='aviso erro'; av.textContent=e.message; }
+}
 
 /* ---------- Filtros ---------- */
 function chip(rotulo, ativo, fn){
@@ -167,7 +185,7 @@ function render(){
           const hit = busca && norm(p.nome).includes(busca);
           lis+=`<li class="${i>=VAGAS?'extra':''} ${hit?'match':''}" data-nome="${esc(norm(p.nome))}">
                   <span class="num">${i+1}</span>
-                  <span class="nome" title="${esc(p.nome)}${p.fone?' · '+esc(p.fone):''}">${esc(p.nome)}</span>
+                  <span class="nome${p.fone?' tem-fone':''}" data-fone="${esc(p.fone||'')}" title="${esc(p.nome)}${p.fone?' · '+esc(p.fone):''}">${esc(p.nome)}</span>
                   <span class="past">${esc(String(p.pastoral).split(',')[0].slice(0,14))}</span>
                   ${ADMIN?`<button class="btn-x" title="Tirar desta vaga" onclick="remover('${esc(p.nome)}','${t.id}','${d.id}')">×</button>`:''}
                 </li>`;
@@ -218,6 +236,27 @@ function render(){
     realcar(li && li.dataset.nome);
   });
   main.addEventListener('mouseleave', ()=>realcar(null));
+})();
+
+/* ---------- Popup de telefone ao clicar no nome ---------- */
+(function(){
+  const popup = document.createElement('div');
+  popup.className = 'fone-popup';
+  popup.hidden = true;
+  document.body.appendChild(popup);
+  const main = $('escala');
+  main.addEventListener('click', e=>{
+    const span = e.target.closest('.nome.tem-fone');
+    if(!span || !span.dataset.fone){ popup.hidden=true; return; }
+    popup.textContent = '📞 ' + span.dataset.fone;
+    const rect = span.getBoundingClientRect();
+    popup.style.left = Math.min(rect.left, window.innerWidth-190) + 'px';
+    popup.style.top  = (rect.bottom + 6) + 'px';
+    popup.hidden = false;
+    e.stopPropagation();
+  });
+  document.addEventListener('click', ()=>{ popup.hidden=true; });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') popup.hidden=true; });
 })();
 
 carregar().catch(()=>{ $('resumo').textContent='Não foi possível carregar os dados — o servidor está rodando?'; });

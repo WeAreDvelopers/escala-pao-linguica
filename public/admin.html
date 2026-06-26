@@ -41,6 +41,47 @@
   </div>
 </details>
 
+<details class="painel" id="painelAdicionar">
+  <summary>➕ Adicionar pessoa manualmente</summary>
+  <div class="form-add">
+    <div class="campo-add">
+      <label>Nome *</label>
+      <input id="addNome" type="text" placeholder="Nome completo">
+    </div>
+    <div class="campo-add">
+      <label>Telefone</label>
+      <input id="addFone" type="tel" placeholder="(99) 99999-9999">
+    </div>
+    <div class="campo-add">
+      <label>Pastoral / Grupo</label>
+      <input id="addPastoral" type="text" placeholder="Ex: PASCOM, Juventude Missionária">
+    </div>
+    <div class="campo-add">
+      <label>Turnos *</label>
+      <div class="checks-add">
+        <label><input type="checkbox" name="addTurno" value="tarde"> Tarde · Vinagrete e molho (14h–18h)</label>
+        <label><input type="checkbox" name="addTurno" value="noite"> Noite · Barraca (17h30–23h)</label>
+        <label><input type="checkbox" name="addTurno" value="fim"> Encerramento · Organização (21h30+)</label>
+      </div>
+    </div>
+    <div class="campo-add">
+      <label>Dias *</label>
+      <div class="checks-add">
+        <label><input type="checkbox" name="addDia" value="13"> Sábado 13</label>
+        <label><input type="checkbox" name="addDia" value="14"> Domingo 14</label>
+        <label><input type="checkbox" name="addDia" value="20"> Sábado 20</label>
+        <label><input type="checkbox" name="addDia" value="21"> Domingo 21</label>
+        <label><input type="checkbox" name="addDia" value="27"> Sábado 27</label>
+        <label><input type="checkbox" name="addDia" value="28"> Domingo 28</label>
+      </div>
+    </div>
+    <div class="acoes">
+      <button class="btn-pri" onclick="adicionarPessoa()">➕ Adicionar à escala</button>
+      <span class="aviso" id="avisoAdicionar"></span>
+    </div>
+  </div>
+</details>
+
 <div class="filtros">
   <div class="linha-f"><span class="rotulo-f">Dia</span><div id="chipsDia"></div></div>
   <div class="linha-f"><span class="rotulo-f">Turno</span><div id="chipsTurno"></div></div>

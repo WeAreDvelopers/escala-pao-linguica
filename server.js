@@ -152,6 +152,23 @@ app.post('/api/restaurar', exigePin, (req, res) => {
   res.json({ ok: true });
 });
 
+app.post('/api/adicionar', exigePin, (req, res) => {
+  const { nome, fone, pastoral, turnos, dias } = req.body;
+  if (!nome || !String(nome).trim()) return res.status(400).json({ erro: 'Nome é obrigatório.' });
+  const TURNO_TEXTO = { tarde: 'vinagrete', noite: 'montagem', fim: 'final da festa' };
+  const funcTexto = (Array.isArray(turnos) ? turnos : []).map(t => TURNO_TEXTO[t] || t).join(', ');
+  const diasTexto = (Array.isArray(dias) ? dias : []).join(', ');
+  db.respostas.push({
+    nome: String(nome).trim(),
+    fone: String(fone || '').trim(),
+    pastoral: String(pastoral || '').trim(),
+    funcTexto, diasTexto,
+    ordem: db.respostas.length
+  });
+  dbSave(db);
+  res.json({ ok: true });
+});
+
 app.listen(PORT, () => {
   console.log(`Escala no ar: http://localhost:${PORT}` + (PIN ? ' (PIN de edição ativo)' : ''));
   // Sincronização automática
