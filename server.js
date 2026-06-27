@@ -78,7 +78,10 @@ async function sincronizar() {
   const respostas = [];
   linhas.forEach((cels, i) => { const p = mapearLinha(cels); if (p) respostas.push({ ...p, ordem: i }); });
   if (!respostas.length) throw new Error('Nenhuma resposta reconhecida no CSV.');
-  db.respostas = respostas;
+  // Preserva entradas adicionadas manualmente que não estejam no CSV
+  const nomesSyncados = new Set(respostas.map(p => norm(p.nome)));
+  const manuais = (db.respostas || []).filter(p => p.manual && !nomesSyncados.has(norm(p.nome)));
+  db.respostas = [...respostas, ...manuais.map((p, i) => ({ ...p, ordem: respostas.length + i }))];
   db.config.lastSync = new Date().toISOString();
   dbSave(db);
   return respostas.length;
@@ -163,6 +166,7 @@ app.post('/api/adicionar', exigePin, (req, res) => {
     fone: String(fone || '').trim(),
     pastoral: String(pastoral || '').trim(),
     funcTexto, diasTexto,
+    manual: true,
     ordem: db.respostas.length
   });
   dbSave(db);
